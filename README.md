@@ -1,2 +1,2 @@
-# decap-try-out
-Trying Decap set up for some .md files
+# Decap CMS try out
+Trying Decap set up for managing some .md files
