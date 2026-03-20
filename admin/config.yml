@@ -5,7 +5,7 @@ backend:
   base_url: https://decap-try-out-auth-ethchxcgb3bsgfe7.francecentral-01.azurewebsites.net
   auth_endpoint: api/auth
 
-site_url: https://dobbym.github.io
+site_url: https://dobbym.github.io/decap-try-out
 display_url: https://dobbym.github.io/decap-try-out
 publish_mode: editorial_workflow
 
