@@ -2,8 +2,9 @@ backend:
   name: github
   repo: dobbym/decap-try-out
   branch: main
+  base_url: https://decap-try-out-auth-ethchxcgb3bsgfe7.francecentral-01.azurewebsites.net
   # function end point
-  auth_endpoint: https://decap-try-out-auth-ethchxcgb3bsgfe7.francecentral-01.azurewebsites.net/api/auth
+  auth_endpoint: api/auth
 
 site_url: https://dobbym.github.io/decap-try-out
 publish_mode: editorial_workflow
