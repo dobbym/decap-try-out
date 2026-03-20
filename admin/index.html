@@ -8,6 +8,15 @@
   </head>
 
   <body>
+    <script>
+      window.addEventListener("message", (event) => {
+        console.log("postMessage received:", {
+          origin: event.origin,
+          data: event.data,
+          sourceIsWindow: event.source === window,
+        });
+      });
+    </script>
     <!-- Enables local development without real auth/backends -->
     <!-- <script src="https://unpkg.com/decap-cms-local-backend@^1.0.0/dist/decap-cms-local-backend.js"></script> -->
 
