@@ -3,19 +3,23 @@ backend:
   repo: dobbym/decap-try-out
   branch: main
   base_url: https://decap-try-out-auth-ethchxcgb3bsgfe7.francecentral-01.azurewebsites.net
-  # function end point
   auth_endpoint: api/auth
-  site_url: https://dobbym.github.io
-  display_url: https://dobbym.github.io/decap-try-out
 
+site_url: https://dobbym.github.io
+display_url: https://dobbym.github.io/decap-try-out
 publish_mode: editorial_workflow
 
 media_folder: "assets/uploads"
 public_folder: "/decap-try-out/assets/uploads"
 
 collections:
-  - name: "posts"
-    label: "Posts"
-    folder: "content/posts"
+  - name: "articles"
+    label: "Articles"
+    folder: "content/articles"
     create: true
+    slug: "{{year}}-{{month}}-{{day}}-{{slug}}"
     fields:
+      - { name: "title", label: "Title", widget: "string" }
+      - { name: "date", label: "Publish Date", widget: "datetime" }
+      - { name: "draft", label: "Draft", widget: "boolean", default: true }
+      - { name: "body", label: "Body", widget: "markdown" }
