@@ -7,7 +7,7 @@ backend:
 
 site_url: https://dobbym.github.io/decap-try-out
 display_url: https://dobbym.github.io/decap-try-out
-publish_mode: editorial_workflow
+publish_mode: simple
 
 media_folder: "assets/uploads"
 public_folder: "/decap-try-out/assets/uploads"
