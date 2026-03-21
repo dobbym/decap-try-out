@@ -9,18 +9,61 @@
 
   <body>
     <script>
+      // Debug: show which auth message formats are arriving
       window.addEventListener("message", (event) => {
-        console.log("postMessage received:", {
-          origin: event.origin,
-          data: event.data,
-          sourceIsWindow: event.source === window,
+        const dataStr =
+          typeof event.data === "string" ? event.data : JSON.stringify(event.data);
+
+        const looksLikeAuth =
+          typeof event.data === "string" &&
+          (event.data.startsWith("authorization:") ||
+            event.data.startsWith("authorizing:"));
+
+        if (looksLikeAuth) {
+          console.log("[Decap auth debug] message received", {
+            origin: event.origin,
+            data: event.data,
+          });
+        } else {
+          // Keep noise down; uncomment if you want everything
+          // console.log("[Decap auth debug] non-auth message", { origin: event.origin, data: dataStr });
+        }
+      });
+
+      // Debug: detect which authenticator is present in the bundle
+      // - NetlifyAuthenticator is the one that parses: authorization:<provider>:success:<json>
+      // - ImplicitAuthenticator/PkceAuthenticator are used for redirect-based OAuth flows
+      window.addEventListener("load", () => {
+        const cms = window.CMS;
+
+        console.log("[Decap auth debug] window.CMS present:", !!cms);
+        if (!cms) return;
+
+        // Try to introspect the registered backend (may vary by build)
+        try {
+          const backend =
+            (cms.getBackend && cms.getBackend()) ||
+            (cms.backend && cms.backend) ||
+            null;
+
+          console.log("[Decap auth debug] CMS backend object:", backend);
+        } catch (e) {
+          console.log("[Decap auth debug] CMS backend introspection failed:", e);
+        }
+
+        // Check for auth library exports (these names exist in decap-cms.js, but may not be exposed globally)
+        console.log("[Decap auth debug] global hints:", {
+          hasDecapCmsLibAuth: !!window.DecapCmsLibAuth,
+          hasNetlifyAuthenticator:
+            !!(window.DecapCmsLibAuth && window.DecapCmsLibAuth.NetlifyAuthenticator),
+          hasImplicitAuthenticator:
+            !!(window.DecapCmsLibAuth && window.DecapCmsLibAuth.ImplicitAuthenticator),
+          hasPkceAuthenticator:
+            !!(window.DecapCmsLibAuth && window.DecapCmsLibAuth.PkceAuthenticator),
         });
       });
     </script>
-    <!-- Enables local development without real auth/backends -->
-    <!-- <script src="https://unpkg.com/decap-cms-local-backend@^1.0.0/dist/decap-cms-local-backend.js"></script> -->
 
-    <!-- Include the script that builds the page and powers Decap CMS -->
     <script src="https://unpkg.com/decap-cms@^3.0.0/dist/decap-cms.js"></script>
   </body>
 </html>
