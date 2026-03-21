@@ -19,7 +19,27 @@ collections:
     create: true
     slug: "{{year}}-{{month}}-{{day}}-{{slug}}"
     fields:
-      - { name: "title", label: "Title", widget: "string" }
-      - { name: "date", label: "Publish Date", widget: "datetime" }
+      - { name: "@context", label: "@context", widget: "string", default: "http://schema.org/" }
+      - { name: "@type", label: "@type", widget: "string", default: "article" }
+      - { name: "headline", label: "Headline", widget: "string" }
+      - name: "image"
+        label: "Image"
+        widget: "list"
+        summary: "{{fields.image}}"
+        field: { name: "image", label: "Image path/URL", widget: "string" }
+        required: false
+
+      - { name: "datePublished", label: "Date Published", widget: "datetime", required: false }
+      - { name: "dateModified", label: "Date Modified", widget: "datetime", required: false }
+      - { name: "mainEntityOfPage", label: "Main Entity Of Page (URL)", widget: "string", required: false }
+
+      - name: "publisher"
+        label: "Publisher"
+        widget: "object"
+        fields:
+          - { name: "@type", label: "@type", widget: "string", default: "Organization" }
+          - { name: "@id", label: "@id", widget: "string", default: "https://realfood.tesco.com" }
+          - { name: "name", label: "Name", widget: "string", default: "Tesco Real Food" }
+
       - { name: "draft", label: "Draft", widget: "boolean", default: true }
       - { name: "body", label: "Body", widget: "markdown" }
