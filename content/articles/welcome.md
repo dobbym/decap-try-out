@@ -1,7 +1,7 @@
 ---
 title: Welcome title
 date: 2026-03-12T00:00:00.000Z
-draft: true
+draft: false
 ---
 # Welcome to my first edit to the heading
 
