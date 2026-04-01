@@ -164,7 +164,7 @@ collections:
           label: "Tag"
           widget: "string"
           pattern:
-            - '^#[A-Za-z0-9_]{1,279}
+            - '^#[A-Za-z0-9_]{1,279}$'
             - "Must be a single hashtag: start with # and use only letters, numbers, or underscore (no spaces)."
 
       - name: "video"
@@ -238,7 +238,6 @@ collections:
             widget: "object"
             required: false
             fields:
-              - { name: "@type", label: "@type", widget: "string", default: "ImageObject", required: false }
               - name: "url"
                 label: "Logo image"
                 widget: "image"
