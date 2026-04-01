@@ -146,7 +146,7 @@ collections:
                 widget: "string"
                 required: true
                 pattern:
-                  - '^(https?:\/\/)?(www\.)?(youtube\.com\/watch\?v=|youtube\.com\/embed\/|youtu\.be\/)[A-Za-z0-9_-]{6,}
+                  - '^(https?:\/\/)?(www\.)?(youtube\.com\/watch\?v=|youtube\.com\/embed\/|youtu\.be\/)[A-Za-z0-9_-]{6,}$'
                   - "Must be a valid YouTube URL (e.g. https://www.youtube.com/watch?v=VIDEOID)."
               - { name: "caption", label: "Caption", widget: "string", required: false }
 
