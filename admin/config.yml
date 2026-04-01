@@ -13,33 +13,114 @@ media_folder: "assets/uploads"
 public_folder: "/decap-try-out/assets/uploads"
 
 collections:
-  - name: "articles"
-    label: "Articles"
-    folder: "content/articles"
+  - name: "recipes"
+    label: "Recipes"
+    folder: "content/recipes"
     create: true
-    slug: "{{year}}-{{month}}-{{day}}-{{slug}}"
+    extension: "json"
+    format: "json"
+    slug: "{{fields.urlFriendlyTitle}}"
+    summary: "{{fields.name}}"
+
     fields:
       - { name: "@context", label: "@context", widget: "string", default: "http://schema.org/" }
-      - { name: "@type", label: "@type", widget: "string", default: "article" }
-      - { name: "headline", label: "Headline", widget: "string" }
-      - name: "image"
-        label: "Image"
-        widget: "list"
-        summary: "{{fields.image}}"
-        field: { name: "image", label: "Image path/URL", widget: "string" }
-        required: false
+      - { name: "@type", label: "@type", widget: "string", default: "Recipe" }
+
+      - { name: "identifier", label: "Identifier", widget: "string", required: false }
+      - { name: "url", label: "Canonical URL", widget: "string", required: false }
+
+      - { name: "name", label: "Name", widget: "string" }
+      - { name: "headline", label: "Headline", widget: "string", required: false }
+      - { name: "description", label: "Description", widget: "text", required: false }
 
       - { name: "datePublished", label: "Date Published", widget: "datetime", required: false }
       - { name: "dateModified", label: "Date Modified", widget: "datetime", required: false }
-      - { name: "mainEntityOfPage", label: "Main Entity Of Page (URL)", widget: "string", required: false }
+
+      - name: "author"
+        label: "Author"
+        widget: "object"
+        required: false
+        fields:
+          - { name: "@type", label: "@type", widget: "string", default: "Organization", required: false }
+          - { name: "@id", label: "@id", widget: "string", required: false }
+          - { name: "name", label: "Name", widget: "string", required: false }
 
       - name: "publisher"
         label: "Publisher"
         widget: "object"
+        required: false
         fields:
-          - { name: "@type", label: "@type", widget: "string", default: "Organization" }
-          - { name: "@id", label: "@id", widget: "string", default: "https://realfood.tesco.com" }
-          - { name: "name", label: "Name", widget: "string", default: "Tesco Real Food" }
+          - { name: "@type", label: "@type", widget: "string", default: "Organization", required: false }
+          - { name: "url", label: "URL", widget: "string", required: false }
+          - { name: "name", label: "Name", widget: "string", required: false }
+          - name: "logo"
+            label: "Logo"
+            widget: "object"
+            required: false
+            fields:
+              - { name: "@type", label: "@type", widget: "string", default: "ImageObject", required: false }
+              - { name: "url", label: "URL", widget: "string", required: false }
 
-      - { name: "draft", label: "Draft", widget: "boolean", default: true }
-      - { name: "body", label: "Body", widget: "markdown" }
+      - name: "image"
+        label: "Images"
+        widget: "list"
+        required: false
+        fields:
+          - { name: "@type", label: "@type", widget: "string", default: "ImageObject", required: false }
+          - { name: "url", label: "URL", widget: "string" }
+          - { name: "height", label: "Height", widget: "number", value_type: "int", required: false }
+          - { name: "width", label: "Width", widget: "number", value_type: "int", required: false }
+          - { name: "representativeOfPage", label: "Representative of page", widget: "boolean", required: false, default: false }
+          - { name: "caption", label: "Caption", widget: "string", required: false }
+          - { name: "name", label: "Name", widget: "string", required: false }
+
+      - { name: "prepTime", label: "Prep time (ISO 8601)", widget: "string", required: false, hint: "Example: PT15M" }
+      - { name: "cookTime", label: "Cook time (ISO 8601)", widget: "string", required: false, hint: "Example: PT45M" }
+      - { name: "totalTime", label: "Total time (ISO 8601)", widget: "string", required: false, hint: "Example: PT1H" }
+
+      - { name: "keywords", label: "Keywords", widget: "string", required: false, hint: "Comma-separated, as Google shows" }
+      - { name: "recipeYield", label: "Recipe yield", widget: "string", required: false }
+      - { name: "recipeCuisine", label: "Cuisine", widget: "string", required: false }
+
+      - name: "nutrition"
+        label: "Nutrition"
+        widget: "object"
+        required: false
+        fields:
+          - { name: "@type", label: "@type", widget: "string", default: "NutritionInformation", required: false }
+          - { name: "calories", label: "Calories", widget: "string", required: false, hint: "Example: 627 calories" }
+          - { name: "fatContent", label: "Fat", widget: "string", required: false, hint: "Example: 18 grams fat" }
+          - { name: "saturatedFatContent", label: "Saturated fat", widget: "string", required: false }
+          - { name: "carbohydrateContent", label: "Carbohydrates", widget: "string", required: false }
+          - { name: "sugarContent", label: "Sugar", widget: "string", required: false }
+          - { name: "fiberContent", label: "Fibre", widget: "string", required: false }
+          - { name: "proteinContent", label: "Protein", widget: "string", required: false }
+
+      - name: "recipeIngredient"
+        label: "Ingredients"
+        widget: "list"
+        required: false
+        field: { name: "ingredient", label: "Ingredient", widget: "string" }
+
+      - name: "recipeInstructions"
+        label: "Instructions"
+        widget: "list"
+        required: false
+        fields:
+          - { name: "@type", label: "@type", widget: "string", default: "HowToStep", required: false }
+          - { name: "text", label: "Step text", widget: "text" }
+
+      - name: "aggregateRating"
+        label: "Aggregate rating"
+        widget: "object"
+        required: false
+        fields:
+          - { name: "@type", label: "@type", widget: "string", default: "AggregateRating", required: false }
+          - { name: "ratingValue", label: "Rating value", widget: "string", required: false }
+          - { name: "ratingCount", label: "Rating count", widget: "string", required: false }
+          - { name: "bestRating", label: "Best rating", widget: "number", value_type: "int", required: false }
+          - { name: "worstRating", label: "Worst rating", widget: "number", value_type: "int", required: false }
+
+      - { name: "urlFriendlyTitle", label: "URL slug (editor helper)", widget: "string", required: true, hint: "Used to name the file; not part of schema.org by default" }
+
+      - { name: "body", label: "Page content", required: true }
