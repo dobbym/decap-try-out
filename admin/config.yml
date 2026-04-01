@@ -7,7 +7,7 @@ backend:
 
 site_url: https://dobbym.github.io/decap-try-out
 display_url: https://dobbym.github.io/decap-try-out
-publish_mode: simple
+publish_mode: editorial_workflow
 
 media_folder: "assets/uploads"
 public_folder: "/decap-try-out/assets/uploads"
@@ -29,33 +29,18 @@ collections:
       - { name: "url", label: "Override canonical URL", widget: "string", required: false }
       - { name: "description", label: "Description", widget: "text", required: false, hint: "Short description for SEO meta data" }
 
-      - name: "author"
-        label: "Author"
-        widget: "object"
-        required: false
-        fields:
-          - { name: "name", label: "Name", widget: "string", required: false }
-          - name: "logo"
-            label: "Logo"
-            widget: "object"
-            required: false
-            fields:
-              - { name: "@type", label: "@type", widget: "string", default: "ImageObject", required: false }
-              - { name: "url", label: "URL", widget: "string", required: false }   
-
       - name: "image"
         label: "Images"
         widget: "list"
         required: false
         fields:
-          - { name: "@type", label: "@type", widget: "string", default: "ImageObject", required: false }
           - name: "url"
             label: "Image"
             widget: "image"
             required: true
             choose_url: false
           - { name: "representativeOfPage", label: "Representative of page", widget: "boolean", required: false, default: false }
-          - { name: "caption", label: "Caption", widget: "string", required: true }
+          - { name: "caption", label: "Caption", widget: "string", required: false }
 
       - { name: "prepTime", label: "Prep time (ISO 8601)", widget: "string", required: false, hint: "Example: PT15M" }
       - { name: "cookTime", label: "Cook time (ISO 8601)", widget: "string", required: false, hint: "Example: PT45M" }
@@ -65,6 +50,90 @@ collections:
 
       - { name: "recipeYield", label: "Recipe yield", widget: "string", required: false }
       - { name: "recipeCuisine", label: "Cuisine", widget: "string", required: false }
+
+      - name: "course"
+        label: "Course"
+        widget: "select"
+        required: false
+        options:
+          - "Breakfast"
+          - "Brunch"
+          - "Canapés"
+          - "Dessert"
+          - "Starter"
+          - "Main"
+          - "Lunch"
+          - "Dinner"
+          - "Snack"
+          - "Elevenses"
+          - "Side"
+          - "Appetizer"
+          - "Supper"
+          - "Snack"
+          - "Drink"
+          - "Other"
+      
+      - name: "occasion"
+        label: "Occasion"
+        widget: "select"
+        required: false
+        options:
+          - "Barbecue"
+          - "Bonfire Night"
+          - "Breakfast"
+          - "Brunch"
+          - "Chinese New Year"
+          - "Christmas"
+          - "Date Night"
+          - "Dessert"
+          - "Diwali"
+          - "Easter"
+          - "Family Get Together"
+          - "Family Meal"
+          - "Father's Day"
+          - "Halloween"
+          - "Light Lunch"
+          - "Lunar New Year"
+          - "Meal For Two"
+          - "Mother's Day"
+          - "New Year"
+          - "Pancake Day"
+          - "Party"
+          - "Picnic"
+          - "Ramadan and Eid"
+          - "Rosh Hashanah"
+          - "Snack"
+          - "Summer Treat"
+          - "Sunday Dinner"
+          - "Valentine's Day"
+          
+      - name: "dietaryOptions"
+        label: "Dietary options"
+        widget: "select"
+        required: false
+        multiple: true
+        options:
+          - "Diabetic"
+          - "Dairy free"
+          - "Gluten free"
+          - "Egg free"
+          - "Halal"
+          - "Hindu"
+          - "Kosher"
+          - "Low calorie"
+          - "Nut free"
+          - "Low fat"
+          - "Lactose free"
+          - "Low salt"
+          - "Vegan"
+          - "Vegetarian"
+          - "Wheat free"
+
+      - name: "freezable"
+        label: "Freezable"
+        widget: "boolean"
+        required: false
+        default: false
 
       - name: "nutrition"
         label: "Nutrition"
@@ -95,7 +164,7 @@ collections:
           label: "Tag"
           widget: "string"
           pattern:
-            - '^#[A-Za-z0-9_]{1,279}$'
+            - '^#[A-Za-z0-9_]{1,279}
             - "Must be a single hashtag: start with # and use only letters, numbers, or underscore (no spaces)."
 
       - name: "video"
@@ -108,7 +177,7 @@ collections:
           label: "YouTube URL"
           widget: "string"
           pattern:
-            - '^(https?:\/\/)?(www\.)?(youtube\.com\/watch\?v=|youtube\.com\/embed\/|youtu\.be\/)[A-Za-z0-9_-]{6,}$'
+            - '^(https?:\/\/)?(www\.)?(youtube\.com\/watch\?v=|youtube\.com\/embed\/|youtu\.be\/)[A-Za-z0-9_-]{6,}
             - "Must be a valid YouTube URL (e.g. https://www.youtube.com/watch?v=VIDEOID)."
       
       - name: "contentBlocks"
@@ -146,7 +215,7 @@ collections:
                 widget: "string"
                 required: true
                 pattern:
-                  - '^(https?:\/\/)?(www\.)?(youtube\.com\/watch\?v=|youtube\.com\/embed\/|youtu\.be\/)[A-Za-z0-9_-]{6,}$'
+                  - '^(https?:\/\/)?(www\.)?(youtube\.com\/watch\?v=|youtube\.com\/embed\/|youtu\.be\/)[A-Za-z0-9_-]{6,}
                   - "Must be a valid YouTube URL (e.g. https://www.youtube.com/watch?v=VIDEOID)."
               - { name: "caption", label: "Caption", widget: "string", required: false }
 
@@ -157,6 +226,24 @@ collections:
         fields:
           - { name: "heading", label: "heading", widget: "string", default: "HowToStep", required: false }
           - { name: "text", label: "Step text", widget: "text" }
+
+      - name: "author"
+        label: "Author"
+        widget: "object"
+        required: false
+        fields:
+          - { name: "name", label: "Name", widget: "string", required: false }
+          - name: "logo"
+            label: "Logo"
+            widget: "object"
+            required: false
+            fields:
+              - { name: "@type", label: "@type", widget: "string", default: "ImageObject", required: false }
+              - name: "url"
+                label: "Logo image"
+                widget: "image"
+                required: false
+                choose_url: false
 
       - { name: "datePublished", label: "Date Published", widget: "datetime", required: false }
       - { name: "dateModified", label: "Date Modified", widget: "datetime", required: false }
