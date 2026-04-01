@@ -95,7 +95,7 @@ collections:
           label: "Tag"
           widget: "string"
           pattern:
-            - '^#[A-Za-z0-9_]{1,279}
+            - '^#[A-Za-z0-9_]{1,279}$'
             - "Must be a single hashtag: start with # and use only letters, numbers, or underscore (no spaces)."
 
       - name: "video"
@@ -108,7 +108,7 @@ collections:
           label: "YouTube URL"
           widget: "string"
           pattern:
-            - '^(https?:\/\/)?(www\.)?(youtube\.com\/watch\?v=|youtube\.com\/embed\/|youtu\.be\/)[A-Za-z0-9_-]{6,}
+            - '^(https?:\/\/)?(www\.)?(youtube\.com\/watch\?v=|youtube\.com\/embed\/|youtu\.be\/)[A-Za-z0-9_-]{6,}$'
             - "Must be a valid YouTube URL (e.g. https://www.youtube.com/watch?v=VIDEOID)."
       
       - name: "contentBlocks"
