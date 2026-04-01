@@ -23,35 +23,17 @@ collections:
     summary: "{{fields.name}}"
 
     fields:
-      - { name: "@context", label: "@context", widget: "string", default: "http://schema.org/" }
-      - { name: "@type", label: "@type", widget: "string", default: "Recipe" }
+      - { name: "title", label: "Recipe title", widget: "string" }
 
-      - { name: "identifier", label: "Identifier", widget: "string", required: false }
-      - { name: "url", label: "Canonical URL", widget: "string", required: false }
-
-      - { name: "name", label: "Name", widget: "string" }
-      - { name: "headline", label: "Headline", widget: "string", required: false }
-      - { name: "description", label: "Description", widget: "text", required: false }
-
-      - { name: "datePublished", label: "Date Published", widget: "datetime", required: false }
-      - { name: "dateModified", label: "Date Modified", widget: "datetime", required: false }
+      - { name: "heading", label: "H1 override, uses title by default", widget: "string", required: false }
+      - { name: "url", label: "Override canonical URL", widget: "string", required: false }
+      - { name: "description", label: "Description", widget: "text", required: false, hint: "Short description for SEO meta data" }
 
       - name: "author"
         label: "Author"
         widget: "object"
         required: false
         fields:
-          - { name: "@type", label: "@type", widget: "string", default: "Organization", required: false }
-          - { name: "@id", label: "@id", widget: "string", required: false }
-          - { name: "name", label: "Name", widget: "string", required: false }
-
-      - name: "publisher"
-        label: "Publisher"
-        widget: "object"
-        required: false
-        fields:
-          - { name: "@type", label: "@type", widget: "string", default: "Organization", required: false }
-          - { name: "url", label: "URL", widget: "string", required: false }
           - { name: "name", label: "Name", widget: "string", required: false }
           - name: "logo"
             label: "Logo"
@@ -59,7 +41,7 @@ collections:
             required: false
             fields:
               - { name: "@type", label: "@type", widget: "string", default: "ImageObject", required: false }
-              - { name: "url", label: "URL", widget: "string", required: false }
+              - { name: "url", label: "URL", widget: "string", required: false }   
 
       - name: "image"
         label: "Images"
@@ -67,18 +49,20 @@ collections:
         required: false
         fields:
           - { name: "@type", label: "@type", widget: "string", default: "ImageObject", required: false }
-          - { name: "url", label: "URL", widget: "string" }
-          - { name: "height", label: "Height", widget: "number", value_type: "int", required: false }
-          - { name: "width", label: "Width", widget: "number", value_type: "int", required: false }
+          - name: "url"
+            label: "Image"
+            widget: "image"
+            required: true
+            choose_url: false
           - { name: "representativeOfPage", label: "Representative of page", widget: "boolean", required: false, default: false }
-          - { name: "caption", label: "Caption", widget: "string", required: false }
-          - { name: "name", label: "Name", widget: "string", required: false }
+          - { name: "caption", label: "Caption", widget: "string", required: true }
 
       - { name: "prepTime", label: "Prep time (ISO 8601)", widget: "string", required: false, hint: "Example: PT15M" }
       - { name: "cookTime", label: "Cook time (ISO 8601)", widget: "string", required: false, hint: "Example: PT45M" }
       - { name: "totalTime", label: "Total time (ISO 8601)", widget: "string", required: false, hint: "Example: PT1H" }
 
-      - { name: "keywords", label: "Keywords", widget: "string", required: false, hint: "Comma-separated, as Google shows" }
+      - { name: "keywords", label: "Keywords", widget: "string", required: false, hint: "Comma-separated list of SEO keywords" }
+
       - { name: "recipeYield", label: "Recipe yield", widget: "string", required: false }
       - { name: "recipeCuisine", label: "Cuisine", widget: "string", required: false }
 
@@ -87,7 +71,6 @@ collections:
         widget: "object"
         required: false
         fields:
-          - { name: "@type", label: "@type", widget: "string", default: "NutritionInformation", required: false }
           - { name: "calories", label: "Calories", widget: "string", required: false, hint: "Example: 627 calories" }
           - { name: "fatContent", label: "Fat", widget: "string", required: false, hint: "Example: 18 grams fat" }
           - { name: "saturatedFatContent", label: "Saturated fat", widget: "string", required: false }
@@ -101,26 +84,79 @@ collections:
         widget: "list"
         required: false
         field: { name: "ingredient", label: "Ingredient", widget: "string" }
+      
+      - name: "tags"
+        label: "Tags (hashtags)"
+        widget: "list"
+        required: false
+        hint: "Add hashtags like #quick #vegan #glutenfree (single word; letters/numbers/underscore only)."
+        field:
+          name: "tag"
+          label: "Tag"
+          widget: "string"
+          pattern:
+            - '^#[A-Za-z0-9_]{1,279}
+            - "Must be a single hashtag: start with # and use only letters, numbers, or underscore (no spaces)."
+
+      - name: "video"
+        label: "YouTube videos"
+        widget: "list"
+        required: false
+        hint: "Add one or more YouTube links (watch, youtu.be, or embed URLs)."
+        field:
+          name: "url"
+          label: "YouTube URL"
+          widget: "string"
+          pattern:
+            - '^(https?:\/\/)?(www\.)?(youtube\.com\/watch\?v=|youtube\.com\/embed\/|youtu\.be\/)[A-Za-z0-9_-]{6,}
+            - "Must be a valid YouTube URL (e.g. https://www.youtube.com/watch?v=VIDEOID)."
+      
+      - name: "contentBlocks"
+        label: "Page content"
+        widget: "list"
+        required: false
+        types:
+          - name: "section"
+            label: "Text section"
+            widget: "object"
+            fields:
+              - { name: "heading", label: "Subheading", widget: "string", required: false }
+              - { name: "text", label: "Text", widget: "markdown", required: false }
+
+          - name: "image"
+            label: "Image"
+            widget: "object"
+            fields:
+              - { name: "heading", label: "Subheading", widget: "string", required: false }
+              - name: "image"
+                label: "Image upload"
+                widget: "image"
+                required: true
+                choose_url: false
+              - { name: "alt", label: "Alt text", widget: "string", required: false }
+              - { name: "caption", label: "Caption", widget: "string", required: false }
+
+          - name: "youtube"
+            label: "YouTube video"
+            widget: "object"
+            fields:
+              - { name: "heading", label: "Subheading", widget: "string", required: false }
+              - name: "url"
+                label: "YouTube URL"
+                widget: "string"
+                required: true
+                pattern:
+                  - '^(https?:\/\/)?(www\.)?(youtube\.com\/watch\?v=|youtube\.com\/embed\/|youtu\.be\/)[A-Za-z0-9_-]{6,}
+                  - "Must be a valid YouTube URL (e.g. https://www.youtube.com/watch?v=VIDEOID)."
+              - { name: "caption", label: "Caption", widget: "string", required: false }
 
       - name: "recipeInstructions"
         label: "Instructions"
         widget: "list"
         required: false
         fields:
-          - { name: "@type", label: "@type", widget: "string", default: "HowToStep", required: false }
+          - { name: "heading", label: "heading", widget: "string", default: "HowToStep", required: false }
           - { name: "text", label: "Step text", widget: "text" }
 
-      - name: "aggregateRating"
-        label: "Aggregate rating"
-        widget: "object"
-        required: false
-        fields:
-          - { name: "@type", label: "@type", widget: "string", default: "AggregateRating", required: false }
-          - { name: "ratingValue", label: "Rating value", widget: "string", required: false }
-          - { name: "ratingCount", label: "Rating count", widget: "string", required: false }
-          - { name: "bestRating", label: "Best rating", widget: "number", value_type: "int", required: false }
-          - { name: "worstRating", label: "Worst rating", widget: "number", value_type: "int", required: false }
-
-      - { name: "urlFriendlyTitle", label: "URL slug (editor helper)", widget: "string", required: true, hint: "Used to name the file; not part of schema.org by default" }
-
-      - { name: "body", label: "Page content", required: true }
+      - { name: "datePublished", label: "Date Published", widget: "datetime", required: false }
+      - { name: "dateModified", label: "Date Modified", widget: "datetime", required: false }
