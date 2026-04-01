@@ -164,7 +164,7 @@ collections:
           label: "Tag"
           widget: "string"
           pattern:
-            - '^#[A-Za-z0-9_]{1,279}$'
+            - '^#[A-Za-z0-9_]{1,279}
             - "Must be a single hashtag: start with # and use only letters, numbers, or underscore (no spaces)."
 
       - name: "video"
@@ -172,13 +172,7 @@ collections:
         widget: "list"
         required: false
         hint: "Add one or more YouTube links (watch, youtu.be, or embed URLs)."
-        field:
-          name: "url"
-          label: "YouTube URL"
-          widget: "string"
-          pattern:
-            - '^(https?:\/\/)?(www\.)?(youtube\.com\/watch\?v=|youtube\.com\/embed\/|youtu\.be\/)[A-Za-z0-9_-]{6,}
-            - "Must be a valid YouTube URL (e.g. https://www.youtube.com/watch?v=VIDEOID)."
+        field: { name: "url", label: "YouTube URL", widget: "string", pattern: ['^(https?:\/\/)?(www\.)?(youtube\.com\/watch\?v=|youtube\.com\/embed\/|youtu\.be\/)[A-Za-z0-9_-]{6,}, "Must be a valid YouTube URL (e.g. https://www.youtube.com/watch?v=VIDEOID)."] }
       
       - name: "contentBlocks"
         label: "Page content"
