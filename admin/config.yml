@@ -151,11 +151,11 @@ collections:
       - name: "recipeIngredient"
         label: "Ingredients"
         widget: "list"
-        required: false
+        required: true
         field: { name: "ingredient", label: "Ingredient", widget: "string" }
       
       - name: "tags"
-        label: "Tags (hashtags)"
+        label: "Tags"
         widget: "list"
         required: false
         hint: "Add hashtags like #quick #vegan #glutenfree (single word; letters/numbers/underscore only)."
@@ -173,12 +173,15 @@ collections:
         required: false
         hint: "Add one or more YouTube links (watch, youtu.be, or embed URLs)."
         field:
-          name: "url"
-          label: "YouTube URL"
-          widget: "string"
-          pattern:
-            - '^(https?:\/\/)?(www\.)?(youtube\.com\/watch\?v=|youtube\.com\/embed\/|youtu\.be\/)[A-Za-z0-9_-]{6,}$'
-            - "Must be a valid YouTube URL (e.g. https://www.youtube.com/watch?v=VIDEOID)."
+          - { name: "heading", label: "Heading", widget: "string", required: false }
+          - name: "url"
+            label: "YouTube URL"
+            widget: "string"
+            required: true
+            pattern:
+              - '^(https?:\/\/)?(www\.)?(youtube\.com\/watch\?v=|youtube\.com\/embed\/|youtu\.be\/)[A-Za-z0-9_-]{6,}$'
+              - "Must be a valid YouTube URL (e.g. https://www.youtube.com/watch?v=VIDEOID)."
+          - { name: "caption", label: "Caption", widget: "string", required: false }
       
       - name: "contentBlocks"
         label: "Page content"
@@ -189,14 +192,14 @@ collections:
             label: "Text section"
             widget: "object"
             fields:
-              - { name: "heading", label: "Subheading", widget: "string", required: false }
+              - { name: "heading", label: "Heading", widget: "string", required: false }
               - { name: "text", label: "Text", widget: "markdown", required: false }
 
           - name: "image"
             label: "Image"
             widget: "object"
             fields:
-              - { name: "heading", label: "Subheading", widget: "string", required: false }
+              - { name: "heading", label: "Heading", widget: "string", required: false }
               - name: "image"
                 label: "Image upload"
                 widget: "image"
@@ -209,7 +212,7 @@ collections:
             label: "YouTube video"
             widget: "object"
             fields:
-              - { name: "heading", label: "Subheading", widget: "string", required: false }
+              - { name: "heading", label: "Heading", widget: "string", required: false }
               - name: "url"
                 label: "YouTube URL"
                 widget: "string"
@@ -224,7 +227,7 @@ collections:
         widget: "list"
         required: false
         fields:
-          - { name: "heading", label: "heading", widget: "string", default: "HowToStep", required: false }
+          - { name: "heading", label: "heading", widget: "string", required: false }
           - { name: "text", label: "Step text", widget: "text" }
 
       - name: "author"
@@ -235,14 +238,9 @@ collections:
           - { name: "name", label: "Name", widget: "string", required: false }
           - name: "logo"
             label: "Logo"
-            widget: "object"
+            widget: "image"
             required: false
-            fields:
-              - name: "url"
-                label: "Logo image"
-                widget: "image"
-                required: false
-                choose_url: false
+            choose_url: false 
 
       - { name: "datePublished", label: "Date Published", widget: "datetime", required: false }
       - { name: "dateModified", label: "Date Modified", widget: "datetime", required: false }
