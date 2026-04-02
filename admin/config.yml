@@ -42,9 +42,32 @@ collections:
           - { name: "representativeOfPage", label: "Representative of page", widget: "boolean", required: false, default: false }
           - { name: "caption", label: "Caption", widget: "string", required: false }
 
-      - { name: "prepTime", label: "Prep time (ISO 8601)", widget: "string", required: false, hint: "Example: PT15M" }
-      - { name: "cookTime", label: "Cook time (ISO 8601)", widget: "string", required: false, hint: "Example: PT45M" }
-      - { name: "totalTime", label: "Total time (ISO 8601)", widget: "string", required: false, hint: "Example: PT1H" }
+      - name: "prepTime"
+        label: "Prep time (ISO 8601)"
+        widget: "string"
+        required: false
+        hint: "Example: PT15M, PT1H, PT1H30M"
+        pattern:
+          - '^P(?!$)(?:T(?=\d)(?:\d+H)?(?:\d+M)?(?:\d+S)?)
+          - "Must be an ISO 8601 duration, e.g. PT15M, PT1H, PT1H30M, PT45S."
+
+      - name: "cookTime"
+        label: "Cook time (ISO 8601)"
+        widget: "string"
+        required: false
+        hint: "Example: PT45M, PT1H"
+        pattern:
+          - '^P(?!$)(?:T(?=\d)(?:\d+H)?(?:\d+M)?(?:\d+S)?)
+          - "Must be an ISO 8601 duration, e.g. PT45M, PT1H, PT1H30M, PT45S."
+
+      - name: "totalTime"
+        label: "Total time (ISO 8601)"
+        widget: "string"
+        required: false
+        hint: "Example: PT1H, PT1H15M"
+        pattern:
+          - '^P(?!$)(?:T(?=\d)(?:\d+H)?(?:\d+M)?(?:\d+S)?)
+          - "Must be an ISO 8601 duration, e.g. PT1H, PT1H15M, PT30M."
 
       - { name: "keywords", label: "Keywords", widget: "string", required: false, hint: "Comma-separated list of SEO keywords" }
 
@@ -164,7 +187,7 @@ collections:
           label: "Tag"
           widget: "string"
           pattern:
-            - '^#[A-Za-z0-9_]{1,279}$'
+            - '^#[A-Za-z0-9_]{1,279}
             - "Must be a single hashtag: start with # and use only letters, numbers, or underscore (no spaces)."
 
       - name: "video"
@@ -179,7 +202,7 @@ collections:
             widget: "string"
             required: true
             pattern:
-              - '^(https?:\/\/)?(www\.)?(youtube\.com\/watch\?v=|youtube\.com\/embed\/|youtu\.be\/)[A-Za-z0-9_-]{6,}$'
+              - '^(https?:\/\/)?(www\.)?(youtube\.com\/watch\?v=|youtube\.com\/embed\/|youtu\.be\/)[A-Za-z0-9_-]{6,}
               - "Must be a valid YouTube URL (e.g. https://www.youtube.com/watch?v=VIDEOID)."
           - { name: "caption", label: "Caption", widget: "string", required: false }
       
@@ -218,7 +241,7 @@ collections:
                 widget: "string"
                 required: true
                 pattern:
-                  - '^(https?:\/\/)?(www\.)?(youtube\.com\/watch\?v=|youtube\.com\/embed\/|youtu\.be\/)[A-Za-z0-9_-]{6,}$'
+                  - '^(https?:\/\/)?(www\.)?(youtube\.com\/watch\?v=|youtube\.com\/embed\/|youtu\.be\/)[A-Za-z0-9_-]{6,}
                   - "Must be a valid YouTube URL (e.g. https://www.youtube.com/watch?v=VIDEOID)."
               - { name: "caption", label: "Caption", widget: "string", required: false }
 
